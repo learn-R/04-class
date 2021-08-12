@@ -1,27 +1,27 @@
 {
-    "id": "D16FA93F",
-    "path": "C:/Users/nicol/Downloads/02-practico.Rmarkdown",
-    "project_path": null,
+    "id": "7E7D59B3",
+    "path": "~/GitHub/03-class/R/03-practico.Rmarkdown",
+    "project_path": "R/03-practico.Rmarkdown",
     "type": "r_markdown",
-    "hash": "376330666",
+    "hash": "2316768711",
     "contents": "",
     "dirty": false,
-    "created": 1628787299825.0,
+    "created": 1628786863854.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 2,
     "properties": {
         "chunk_output_type": "console",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "127,22",
-        "scrollLine": "114"
+        "cursorPosition": "60,21",
+        "scrollLine": "47"
     },
     "folds": "",
-    "lastKnownWriteTime": 1628777099,
+    "lastKnownWriteTime": 1628789423,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1628777099,
+    "last_content_update": 1628789423163,
     "read_only": false,
     "read_only_alternatives": []
 }

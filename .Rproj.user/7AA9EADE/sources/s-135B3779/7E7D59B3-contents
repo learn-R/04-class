@@ -59,6 +59,7 @@ pacman::p_load(sjmisc,
                haven,
                xlsx,
                dplyr)
+
 ```
 
 ## 2. Importar datos
@@ -208,33 +209,33 @@ Por último, una vez que hayamos procesado los datos, es importante que los **gu
 Es lo recomendable, si el resto del análisis lo realizaremos en R. 
 
 ```{r, setup, echo = T, include=FALSE}
-save(datos_proc, data = "output/data/datos_proc.RData") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.RData. 
+save(datos_proc, "output/data/datos_proc.RData") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.RData. 
 
-saveRDS(datos_proc, data = "output/data/datos_proc.rds") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.rds. 
+saveRDS(datos_proc, "output/data/datos_proc.rds") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.rds. 
 ```
 
 ### b) .sav (`haven`)
 
 ```{r, setup, echo = T, include=FALSE}
-write_sav(datos_proc, data = "output/data/datos_proc.sav") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.sav. 
+write_sav(datos_proc, "output/data/datos_proc.sav") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.sav. 
 ```
 
 ### b) .dta (`haven`)
 
 ```{r, setup, echo = T, include=FALSE}
-write_dta(datos_proc, data = "output/data/datos_proc.dta") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.dta. 
+write_dta(datos_proc, "output/data/datos_proc.dta") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.dta. 
 ```
 
 ### b) .csv
 
 ```{r, setup, echo = T, include=FALSE}
-write.csv(datos_proc, data = "output/data/datos_proc.csv") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.csv. 
+write.csv(datos_proc, "output/data/datos_proc.csv") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.csv. 
 ```
 
 ### b) .xlsx
 
 ```{r, setup, echo = T, include=FALSE}
-write.xlsx(datos_proc, data = "output/data/datos_proc.xlsx") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.xlsx. 
+write.xlsx(datos_proc, "output/data/datos_proc.xlsx") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.xlsx. 
 ```
 
 ## Resumen
