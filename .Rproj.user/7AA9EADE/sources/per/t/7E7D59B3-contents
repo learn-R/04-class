@@ -151,6 +151,16 @@ Una variable de clase `Logic` incluye valores lógicos, como TRUE (T) o FALSE (F
 
 Una variable de clase `factor` puede incluir tanto números como letras. Es una especie de variable `character`, pero recodificada de modo que los posibles valores sean etiquetados. Las bases de datos no suelen incluirlas a priori, por lo que lo usual es que debamos realizar un proceso de *recodificación* para poder trabajar una variable como factor. ¡Esto último será tratado en el siguiente práctico!
 
+#### En resumen:
+
+| Clase  | Tipo de variable |
+|---------:|:--------|
+| `numeric` | Cuantitativa |
+| `character` | Categórica |
+| `Logic` |  Lógica (TRUE, FALSE, NA) |
+| `factor` | Categórica con niveles y etiquetas |
+
+
 ## 3.1. Selección de variables
 
 Para seleccionar variables, lo primero que debemos hacer es dirigirnos al *libro de códigos* correspondiente a nuestro set de datos, para conocer - valga la redundancia - los códigos asociados a las variables que trabajaremos en la base de datos. Una vez realizado esto, ocuparemos el comando `select()`, incluido en el paquete `dplyr`, para *seleccionar* y *renombrar* las variables que utilizaremos. 
