@@ -1,0 +1,250 @@
+---
+title: "Importar, explorar y limpiar datos"
+linktitle: "2: Importar, explorar y limpiar datos"
+date: "2021-08-23"
+menu:
+  example:
+    parent: Ejemplos
+    weight: 3
+type: docs
+toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+rm(list=ls()) #Limpiamos el entorno
+```
+
+## 0. Objetivo del práctico
+
+Este práctico tiene por objeto introducir a las y los estudiantes del curso en herramientas que les permitan a) **importar bases de datos en diversos formatos**; b)**seleccionar variables** de las bases de datos importadas; y c) **exportar bases de datos** procesadas. Para ello, se trabajará con los paquetes `haven` (que forma parte, a su vez, del mundo de paquetes `tidyverse`), y `dplyr`, para poder importar  y exportar los datos, y manipular estos datos, respectivamente.
+
+## 1. Recursos de la práctica
+
+En este práctico utilizaremos la base de datos de la [**Encuesta de Caracterización Socioeconómica (CASEN)**](http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020). Recuerden siempre consultar el [**manual/libro de códigos**](http://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2020/Libro_de_codigos_Base_de_Datos_Casen_en_Pandemia_2020.pdf) antes de trabajar una base de datos.
+
+## 2. Librerias a utilizar
+
+En este práctico utilizaremos cuatro paquetes
+
+1. `pacman`: este facilita y agiliza la lectura de los paquetes a utilizar en R
+
+2. `sjmisc`: explorar datos
+
+3. `tidyverse`: colección de paquetes, del cuál utilizaremos `dplyr` y `haven`
+
+4. `haven`: cargar y exportar bases de datos en formatos .sav y .dta
+
+5. `xlsx`: para cargar y exportar bases de datos en formato .xlsx
+
+6. `dplyr`: nos permite seleccionar variables de un set de datos
+
+# Pasos del procesamiento
+
+## 1. Cargar librerías
+
+Primero instalamos `pacman` por única vez
+
+```{r eval=FALSE, include=TRUE}
+install.packages("pacman")
+library (pacman)
+```
+
+Luego cargaremos así los paquetes. Les recordamos que cuando luego de un paquete ponemos `::` esto se refiere a que se *"fuerza"* que esa función provenga de *ese paquete*
+
+```{r, include=TRUE}
+pacman::p_load(sjmisc,
+               tidyverse,
+               haven,
+               xlsx,
+               dplyr)
+
+```
+
+## 2. Importar datos
+
+Para poder realizar análisis estadístico de cualquier tipo, el primer paso - sin considerar, por supuesto, la formulación de un problema de investigación, y la búsqueda de datos que permitan resolverlo - es **importar una base de datos**. Por razones obvias, si no hemos cargados los datos en el *entorno*, no seremos capaces de realizar ningún otro procedimiento, ni de preparación de los datos - por ejemplo, seleccionar variables, recodificarlas, construir variables sumativas, entre otros -, ni de análisis de estos - ya sean descriptivos, relacionales, explicativos, y así. 
+
+Una de las bondades de **R** es que es posible importar fácilmente datos que se encuentren en *cualquier formato*: ya sea .csv, .dta, .sav, .xlsx y, por supuesto, .RData. Para poder hacerlo, sin embargo, lo primero es *instalar* y *cargar* las **librerías** que contienen las **funciones** necesarias para la importación de distintos tipos de archivos. 
+
+
+### 2.1. Cargar set de datos
+
+Una vez cargado el paquete `haven`, procedemos a *importar* los datos anteriormente mencionados. Para ello, creamos un *nuevo objeto* en el ambiente (environment), al cual llamaremos **datos**.
+
+```{r, setup, echo = T, include=FALSE}
+datos <- read_sav("input/data/datoscasen.sav") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datoscasen.sav" que se encuentra en el directorio "../project", con el comando correspondiente: "read_sav".
+```
+
+En el panel **Environment**, situado por defecto en la esquina superior derecha, podremos advertir que ha aparecido un nuevo objeto, llamado datos, con 185.437 observaciones (o filas), y 650 variables (o columnas). 
+
+### 2.1.1 Cargar set de datos en otros formatos. 
+
+Como se mencionó anteriormente, con R es posible cargar set de datos en *distintos formatos*. A continuación, se presentará un listado para cargar datos en los formatos a) .RData, b) .dta (STATA), c) .csv (separado por comas), y d) .xlsx (Excel). Los códigos presentados serán a modo de ejemplo, por lo cual en cada uno se presentará una **ruta** y un **nombre** genérico: "RUTADONDESEENCUENTRAN" y "datos", con sus respectivos formatos. 
+
+#### a) .RData y .rds
+
+Estos son los formatos específicos de base de datos para R. Por ello, *no es necesario cargar paquetes*, pues *R base* contiene las funciones necesarias para poder realizar la importación. 
+
+```{r, setup, echo = T, include=FALSE}
+datos <- load("RUTADONDESEENCUENTRAN/datos.RData") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.RData" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "load".
+
+datos <- readRDS("RUTADONDESEENCUENTRAN/datos.rds") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.rds" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "readRDS".
+```
+
+#### b) .dta
+
+Este es el formato específico de base de datos para STATA. Por ello, utilizaremos la función read_dta, incluida en el paquete `haven`, que ya cargamos con anterioridad.  
+
+```{r, setup, echo = T, include=FALSE}
+datos <- read_dta("RUTADONDESEENCUENTRAN/datos.dta") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.dta" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read_dta".
+```
+
+#### c) .csv
+
+Este formato proviene de planillas Excel, separadas por puntos (en caso de que el idioma sea el inglés), o por comas (cuando el idioma es español). Ocuparemos las funciones read.csv y read.csv2, incluidas en el *paquete base* de R.  
+
+```{r, setup, echo = T, include=FALSE}
+datos <- read.csv("RUTADONDESEENCUENTRAN/datos.csv", sep = ";", dec = ",") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.csv" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read.csv". Si la base está en español, le indicamos a R que la separación de los valores en cada línea del archivo es por punto y comas (sep = ";"), y que los decimales están separados con comas (dec = ",").
+
+datos <- read.csv2("RUTADONDESEENCUENTRAN/datos.csv") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.csv" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read.csv2". Cuando los datos están en español, no es necesario especificar más argumentos. 
+```
+
+#### d) .xlsx
+
+Este formato corresponde a las planillas de Excel. Para importar datos .xlsx, debemos instalar y cargar el paquete `xlsx`, que permite especificar diversos argumentos según qué es lo que necesitemos importar. Estos argumentos pueden usarse en conjunto, o por separado. 
+
+```{r, setup, echo = T, include=FALSE}
+datos <- read.xlsx("RUTADONDESEENCUENTRAN/datos.xlsx") #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.xlsx" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read.xlsx". 
+
+datos <- read.xlsx("RUTADONDESEENCUENTRAN/datos.xlsx", sheetIndex = 1) #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la primera página de la base "datos.xlsx" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read.xlsx". 
+
+datos <- read.xlsx("RUTADONDESEENCUENTRAN/datos.xlsx", sheetName = 'NOMBREDELAPAGINA') #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la página llamada "NOMBREDELAPAGINA", de la base "datos.xlsx" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read.xlsx". 
+datos <- read.xlsx("RUTADONDESEENCUENTRAN/datos.xlsx", startRow = 3) #Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base "datos.xlsx" que se encuentra en el directorio "RUTADONDESEENCUENTRAN" desde la tercera fila, con el comando correspondiente: "read.xlsx".
+```
+
+## 3. Seleccionar variables. 
+
+Lo más probable es que, una vez importados los datos a utilizar, no trabajemos con el total de variables incluidas en estos (que, en este caso, suman un total de *650* columnas). Es por ello, que debemos **seleccionar** las variables de interés para resolver nuestro problema de investigación (sea el que sea). 
+
+Debemos considerar, sin embargo, que en R existen *distintos tipos de variables*, con los cuales podemos realizar distintos procedimientos. Recordemos, por ejemplo, los niveles de medición: sabemos que el nivel de medición de la variable *género* es *nominal* y, por lo tanto, sólo nos permite clasificar a unas personas u otras. Por ello, no podemos, por ejemplo, calcular el promedio del género de una muestra. Por otra parte, la variable *edad* presenta un nivel de medición *de razón*, por lo cual sí podemos realizar con ella operaciones aritméticas y, en consecuencia, es posible, por ejemplo, calcular el promedio de edad de la muestra con que estamos trabajando. 
+
+La función `class()`, incluido en el *paquete base* de R, nos permite saber la *clase* de una variable determinada con la cual deseemos trabajar.
+
+### a) `numeric`
+
+Una variable puede presentar la clase  `numeric`, lo cual significa que sus datos *sólo incorporan números*. Así, es posible, por ejemplo, calcular el promedio para este tipo de variables. En *Casen en Pandemia 2020*, una de las variables `numeric` incluidas es *Ingreso total per cápita del hogar corregido* (codificada como ypchtotcor).
+
+```{r, setup, echo = T, include=FALSE}
+class(datos$ypchtotcor)
+```
+
+### b) `character`
+
+Una variable de clase `character` puede incluir tanto números como letras. Si bien con estas variables no es posible calcular, por ejemplo, promedios, sí podemos calcular frecuencias (absolutas y relativas), entre otros. 
+
+### c) `Logic`
+
+Una variable de clase `Logic` incluye valores lógicos, como TRUE (T) o FALSE (F). Los valores nulos (NA) también son valores lógicos. Este tipo de variables nos pueden servir a la hora de crear funciones, lo cual no se revisará en este práctico.
+
+### d) `factor`
+
+Una variable de clase `factor` puede incluir tanto números como letras. Es una especie de variable `character`, pero recodificada de modo que los posibles valores sean etiquetados. Las bases de datos no suelen incluirlas a priori, por lo que lo usual es que debamos realizar un proceso de *recodificación* para poder trabajar una variable como factor. ¡Esto último será tratado en el siguiente práctico!
+
+#### En resumen:
+
+| Clase  | Tipo de variable |
+|---------:|:--------|
+| `numeric` | Cuantitativa |
+| `character` | Categórica |
+| `Logic` |  Lógica (TRUE, FALSE, NA) |
+| `factor` | Categórica con niveles y etiquetas |
+
+
+## 3.1. Selección de variables
+
+Para seleccionar variables, lo primero que debemos hacer es dirigirnos al *libro de códigos* correspondiente a nuestro set de datos, para conocer - valga la redundancia - los códigos asociados a las variables que trabajaremos en la base de datos. Una vez realizado esto, ocuparemos el comando `select()`, incluido en el paquete `dplyr`, para *seleccionar* y *renombrar* las variables que utilizaremos. 
+
+En este caso, las variables seleccionadas serán *ingresos_pc* (ypchtotcor), *sit_vivienda* ("Su hogar, ¿bajo qué situación ocupa la vivienda?", v13), *dorm_vivienda* ("¿Cuántos dormitorios de uso exclusivo ocupa su hogar en esta vivienda?", v29), y *pers_vivienda* ("¿Cuántas personas viven habitualmente en esta vivienda?", p6). Crearemos una base procesada llamado datos_proc, que sólo incluirá estas tres variables. 
+
+```{r, setup, echo = T, include=FALSE}
+
+datos_proc <- datos %>% 
+  select(ingresos_pc = ypchtotcor,
+         sit_vivienda = v13,
+         dorm_vivienda = v29,
+         pers_vivienda = p6)
+
+#Creamos un nuevo objeto llamado datos_proc, a partir del objeto datos, seleccionado las variables ypchtotcor (renombrada como ingresos_pc), v13 (renombrada como sit_vivienda), v29 (renombrada como dorm_vivienda) y p6 (renombrada como pers_vivienda).
+
+```
+
+Como podemos ver en el ambiente (Environment), se creó un nuevo objeto llamado datos_proc, que tiene la misma cantidad de observaciones (filas) que datos, pero que sólo incluye 4 de las 650 variables iniciales. 
+
+### Bonus: inspección de variables
+
+Podemos inspeccionar los datos que acabamos de seleccionar. Para ello, emplearemos el paquete `sjmisc` y, en específico, su función `frq()`, que nos permite analizar la frecuencia de cada una de las alternativas de respuesta de cada variable. Esta función suele ser más útil para analizar variables que *no sean de tipo `numeric`*, pues estas últimas suelen presentar demasiadas alternativas de respuesta. 
+
+```{r, setup, echo = T, include=FALSE}
+
+frq(datos_proc$sit_vivienda) #Usar la función frq con la variable sit_vivienda de los datos datos_proc.
+
+```
+
+Para las variables numeric, en cambio, podemos utilizar la función `descr()` del mismo paquete, que nos indicará las *medidas de tendencia central, dispersión y posición* de la variable.
+
+```{r, setup, echo = T, include=FALSE}
+
+descr(datos_proc$ingresos_pc) #Usar la función descr con la variable ingresos_pc de los datos datos_proc.
+
+```
+
+## 4. Guardar y exportar datos
+
+Por último, una vez que hayamos procesado los datos, es importante que los **guardemos** en una nueva base de datos procesada, para no tener que llevar a cabo el procesamiento otra vez. El archivo se puede guardar en distintos formatos: 
+
+### a) .RData y .rds
+
+Es lo recomendable, si el resto del análisis lo realizaremos en R. 
+
+```{r, setup, echo = T, include=FALSE}
+save(datos_proc, "output/data/datos_proc.RData") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.RData. 
+
+saveRDS(datos_proc, "output/data/datos_proc.rds") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.rds. 
+```
+
+### b) .sav (`haven`)
+
+```{r, setup, echo = T, include=FALSE}
+write_sav(datos_proc, "output/data/datos_proc.sav") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.sav. 
+```
+
+### b) .dta (`haven`)
+
+```{r, setup, echo = T, include=FALSE}
+write_dta(datos_proc, "output/data/datos_proc.dta") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.dta. 
+```
+
+### b) .csv
+
+```{r, setup, echo = T, include=FALSE}
+write.csv(datos_proc, "output/data/datos_proc.csv") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.csv. 
+```
+
+### b) .xlsx
+
+```{r, setup, echo = T, include=FALSE}
+write.xlsx(datos_proc, "output/data/datos_proc.xlsx") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.xlsx. 
+```
+
+## Resumen
+
+¡Eso es todo por este práctico! Aquí, aprendimos a: 
+- 1) Importar datos en diferentes formatos.
+- 2) Seleccionar variables (y hacer una revisión de ciertos aspectos de estas).
+- 3) Guardar y exportar los datos procesados, en distintos formatos.
+
+## Reporte de progreso
+
+¡Recuerda rellenar tu reporte de progreso! En https://learn-r.formr.org/. Te llegó un código único a tu correo electrónico. Mediante él debes acceder para actualizar tu estado de avance del curso.

@@ -1,5 +1,5 @@
 
-# Práctico 3: Importar, seleccionar y exportar datos ----------------------
+# Práctico 2: Importar, seleccionar y exportar datos ----------------------
 
 
 # 0. Instalar paquetes ----------------------------------------------------
