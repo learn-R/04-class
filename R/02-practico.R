@@ -129,7 +129,23 @@ frq(datos_proc$sit_vivienda) #Usar la función frq con la variable sit_vivienda
 descr(datos_proc$ingresos_pc) #Usar la función descr con la variable edad de los 
 # datos datos_proc.
 
-# 3. Exportar datos ----------------------------------------------------------
+
+# 3. Limpieza de datos ----------------------------------------------------
+
+is.na(datos_proc) #Revisamos si hay casos perdidos en el total del set de datos 
+is.na(datos_proc$ingresos_pc) #Revisamos si hay casos perdidos en Ingresos per cápita
+
+sum(is.na(datos_proc)) #Contamos los valores nulos del set de datos en general, 
+# que suman un total de 180.148
+sum(is.na(datos_proc$ingresos_pc)) #Contaremos los valores nulos de la variable 
+# Ingresos per cápita, que alcanzan un total de 98
+
+dim(datos_proc) #Vemos que los datos presentan 185.437 filas, y 4 columnas
+sum(is.na(datos_proc)) #Y un total de 180.148 celdas con casos perdidos
+datos_proc <- na.omit(datos_proc) #Eliminamos las filas con casos perdidos
+dim(datos_proc) #La nueva base de datos tiene 5.387 filas y 4 columnas
+
+# 4. Exportar datos ----------------------------------------------------------
 
 ## a) .RData y .rds
 

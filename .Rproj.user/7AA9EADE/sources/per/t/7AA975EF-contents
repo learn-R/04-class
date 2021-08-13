@@ -18,7 +18,7 @@ rm(list=ls()) #Limpiamos el entorno
 
 ## 0. Objetivo del práctico
 
-Este práctico tiene por objeto introducir a las y los estudiantes del curso en herramientas que les permitan a) **importar bases de datos en diversos formatos**; b)**seleccionar variables** de las bases de datos importadas; y c) **exportar bases de datos** procesadas. Para ello, se trabajará con los paquetes `haven` (que forma parte, a su vez, del mundo de paquetes `tidyverse`), y `dplyr`, para poder importar  y exportar los datos, y manipular estos datos, respectivamente.
+Este práctico tiene por objeto introducir a las y los estudiantes del curso en herramientas que les permitan a) **importar bases de datos en diversos formatos**; b)**seleccionar variables** de las bases de datos importadas; c) limpiar los datos, eliminando las filas con casos perdidos; y d) **exportar bases de datos** procesadas. Para ello, se trabajará con los paquetes `haven` (que forma parte, a su vez, del mundo de paquetes `tidyverse`), y `dplyr`, para poder importar  y exportar los datos, y manipular estos datos, respectivamente.
 
 ## 1. Recursos de la práctica
 
@@ -200,7 +200,42 @@ descr(datos_proc$ingresos_pc) #Usar la función descr con la variable ingresos_p
 
 ```
 
-## 4. Guardar y exportar datos
+## 4. Limpieza de datos
+
+Los datos con los que trabajamos suelen incorporar valores nulos (`NA`), casos perdidos ingresados como valores de clase `Logic`. Estos valores no nos entregan información útil para nuestros análisis, y pueden generar problemas al momento de, por ejemplo, calcular _medidas de tendencia central_, u otros procedimientos estadísticos.
+
+Hay diversas maneras de trabajar los valores nulos, tales como realizar procesos de imputación, entre otros. Sin embargo, la más sencilla consiste en **eliminar los valores nulos** que se encuentran presentes en nuestros datos. 
+
+Para ello, lo primero es _identificar valores nulos_ en el set de datos en general, o en alguna variable en específico. Para ello, empleamos la función `is.na()`.
+
+```{r}
+
+is.na(datos_proc) #Revisamos si hay casos perdidos en el total del set de datos 
+is.na(datos_proc$ingresos_pc) #Revisamos si hay casos perdidos en Ingresos per cápita
+
+```
+
+Sin embargo, esto no resulta muy práctico para el análisis. Es por ello que emplearemos la función `sum()` para _contar cuántos valores nulos_ hay en el set de datos en general, o en alguna variable en particular. 
+
+```{r}
+
+sum(is.na(datos_proc)) #Contamos los valores nulos del set de datos en general, que suman un total de 180.148
+sum(is.na(datos_proc$ingresos_pc)) #Contaremos los valores nulos de la variable Ingresos per cápita, que alcanzan un total de 98
+
+```
+
+Una vez identificamos los _valores nulos_, podemos proceder a **eliminarlos** del set de datos. El comando `na.omit()` eliminará _todas las filas_ que presenten casos perdidos. 
+
+```{r}
+
+dim(datos_proc) #Vemos que los datos presentan 185.437 filas, y 4 columnas
+sum(is.na(datos_proc)) #Y un total de 180.148 celdas con casos perdidos
+datos_proc <- na.omit(datos_proc) #Eliminamos las filas con casos perdidos
+dim(datos_proc) #La nueva base de datos tiene 5.387 filas y 4 columnas
+
+```
+
+## 5. Guardar y exportar datos
 
 Por último, una vez que hayamos procesado los datos, es importante que los **guardemos** en una nueva base de datos procesada, para no tener que llevar a cabo el procesamiento otra vez. El archivo se puede guardar en distintos formatos: 
 
@@ -243,7 +278,8 @@ write.xlsx(datos_proc, "output/data/datos_proc.xlsx") #Guardamos el objeto datos
 ¡Eso es todo por este práctico! Aquí, aprendimos a: 
 - 1) Importar datos en diferentes formatos.
 - 2) Seleccionar variables (y hacer una revisión de ciertos aspectos de estas).
-- 3) Guardar y exportar los datos procesados, en distintos formatos.
+- 3) Limpiar los datos, eliminando casos perdidos
+- 4) Guardar y exportar los datos procesados, en distintos formatos.
 
 ## Reporte de progreso
 

@@ -3,7 +3,7 @@
     "path": "~/GitHub/03-class/README.md",
     "project_path": "README.md",
     "type": "markdown",
-    "hash": "69934553",
+    "hash": "513289903",
     "contents": "",
     "dirty": false,
     "created": 1628812939487.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "8,82",
+        "cursorPosition": "4,116",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1628812961,
+    "lastKnownWriteTime": 1628864238,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1628812961029,
+    "last_content_update": 1628864238292,
     "read_only": false,
     "read_only_alternatives": []
 }
