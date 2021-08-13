@@ -1,6 +1,16 @@
 
 # Práctico 2: Importar, seleccionar y exportar datos ----------------------
 
+# En este práctico utilizaremos la base de datos de la Encuesta de Caracterización 
+# Socioeconómica (CASEN)
+# (http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020)
+# Para ello, deben dirigirse al siguiente enlace(https://drive.google.com/drive/folders/1Orgb3Qb9LcjTfjYMdIdy7SWd3xDMrTbG?usp=sharing), 
+# descargar el archivo datoscasen.sav, y pegarlo en la carpeta input/data de su 
+# repositorio.  
+# 
+# Recuerden siempre consultar el manual/libro de códigos
+# (http://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2020/Libro_de_codigos_Base_de_Datos_Casen_en_Pandemia_2020.pdf) 
+# antes de trabajar una base de datos.
 
 # 0. Instalar paquetes ----------------------------------------------------
 

@@ -1,4 +1,4 @@
-# 02-class
+# 03-class
 
 Esta carpeta contiene los materiales necesarios para la _clase 2_ del curso **Análisis de Datos Estadísticos en R** dictado por la profesora _Valentina Andrade_, y con la participación de _Dafne Jaime_ y _Nicolás Godoy _ como ayudantes.
 

@@ -1,26 +1,26 @@
 {
-    "id": "A52318C5",
+    "id": "577174F7",
     "path": "~/GitHub/03-class/README.md",
     "project_path": "README.md",
     "type": "markdown",
-    "hash": "513289903",
+    "hash": "4087005546",
     "contents": "",
     "dirty": false,
-    "created": 1628812939487.0,
+    "created": 1628866970079.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "4,116",
+        "cursorPosition": "0,4",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1628864238,
+    "lastKnownWriteTime": 1628866977,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1628864238292,
+    "last_content_update": 1628866977575,
     "read_only": false,
     "read_only_alternatives": []
 }

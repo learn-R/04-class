@@ -1,26 +1,26 @@
 {
-    "id": "9FDFF6EA",
-    "path": "~/GitHub/03-class/R/02-practico.R",
-    "project_path": "R/02-practico.R",
+    "id": "3EC011D3",
+    "path": "~/GitHub/03-class/03-clase/R/03-practico.R",
+    "project_path": "R/03-practico.R",
     "type": "r_source",
-    "hash": "61220714",
+    "hash": "1506279376",
     "contents": "",
     "dirty": false,
-    "created": 1628812902209.0,
+    "created": 1628867025669.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "146,0",
-        "scrollLine": "126"
+        "cursorPosition": "1,12",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1628864013,
+    "lastKnownWriteTime": 1628867039,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1628864013904,
+    "last_content_update": 1628867039786,
     "read_only": false,
     "read_only_alternatives": []
 }
