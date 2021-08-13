@@ -4,172 +4,105 @@
 
 # 0. Instalar paquetes ----------------------------------------------------
 
-install.packages("tidyverse") #Instalamos el paquete. Si ya lo tenemos instalado, 
-# este comando actualiza la versión del paquete a la más reciente. No es necesario 
-# correr este código cada vez que usemos un paquete.
-
-install.packages("sjmisc") #Instalamos el paquete. sjmisc nos permitirá calcular
-# frecuencias y estadísticos descriptivos, entre otras cosas. 
-
-install.packages("xlsx") #Instalamos el paquete, que nos permitirá importar y 
-#exportar archivos .xlsx
-
-library(haven) #Cargamos el paquete para utilizarlo. Este comando debe ser usado
-# cada vez que iniciemos una nueva sesión en RStudio. Este paquete es parte de
-# tidyverse, y permite abrir datos en formatos .sav y .dta
-
-library(sjmisc) #Cargamos el paquete
-
-library(xlsx) #Cargamos el paquete
-
-library(dplyr) #Cargamos el paquete para utilizarlo. dplyr permite manipular
-# datos. 
+pacman::p_load(sjmisc, #explorar datos
+               sjPlot,
+               tidyverse, #colección de paquetes, del cuál utilizaremos `dplyr` y `haven`
+               haven, #cargar y exportar bases de datos en formatos .sav y .dta
+               readxl, #para cargar y exportar bases de datos en formato .xlsx y .xls
+               writexl)#para cargar y exportar bases de datos en formato .xlsx y .xls
 
 
 # 1. Importar datos -------------------------------------------------------
 
 # En este práctico, se trabajó con CASEN 2020. 
+# Antes ¿dónde están nuestros datos? Por lo general, nuestros datos los dejaremos en 
+# la carpeta `input/data`. En el [siguiente enlace](https://drive.google.com/drive/folders/1Orgb3Qb9LcjTfjYMdIdy7SWd3xDMrTbG?usp=sharing) 
+# podrán descargar el archivo .zip que contiene la base de CASEN. Si aún no sabes como descomprimir datos, por favor revisa [aquí]
+# (https://learn-r-udp.netlify.app/resource/unzipping/).
+# Luego de que hayas **descargado y descomprimido los datos** asegurate de dejar el
+# archivo `.sav` y `.dta` en la carpeta de tu proyecto `input/data`. Los datos se
+# llamarán en formato SPPS `Casen en Pandemia 2020 SPSS.sav` o en STATA `Casen en 
+# Pandemia 2020 SPSS.dta`.
 
-temp <- tempfile()
-download.file("http://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2020/Casen_en_Pandemia_2020_SPSS.sav.zip",temp)
-datos <- haven::read_sav(unz(temp, "Casen en Pandemia 2020 SPSS.sav"))
-unlink(temp); remove(temp)
-
+datos <- read_sav("input/data/Casen en Pandemia 2020 SPSS.sav")
 
 ## 1.1. Importar datos en diversos formatos --------------------------------
 
 ## a) .RData y .rds
 
-datos <- load("input/data/CASEN.RData") #Señalamos a R que cree un 
-# nuevo objeto llamado "datos", cargando la base "datos.RData" que se encuentra 
-# en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "load".
+load(file = "input/data/CASEN.RData")
+readRDS(file = "input/data/CASEN.rds")
 
-datos <- readRDS("input/data/CASEN.rds") #Señalamos a R que cree un 
-# nuevo objeto llamado "datos", cargando la base "datos.rds" que se encuentra en 
-# el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "readRDS".
+datos <- readRDS(file = "input/data/CASEN.rds")
 
 ## b) .dta
 
-datos <- read_dta("input/data/CASEN.dta") #Señalamos a R que cree un 
-# nuevo objeto llamado "datos", cargando la base "datos.dta" que se encuentra en 
-# el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read_dta".
+datos <- read_dta("input/data/Casen en Pandemia 2020 SPSS.dta") 
 
 ## c) .csv
 
-datos <- read.csv("input/data/CASEN.csv", sep = ";", dec = ",") 
-#Señalamos a R que cree un nuevo objeto llamado "datos", cargando la base 
-# "datos.csv" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", con el 
-# comando correspondiente: "read.csv". Si la base está en español, le indicamos 
-# a R que la separación de los valores en cada línea del archivo es por punto y 
-# comas (sep = ";"), y que los decimales están separados con comas (dec = ",").
+datos <- read.csv("input/data/CASEN.csv", sep=",", 
+                  encoding = "UTF-8", stringsAsFactors = F)
 
-datos <- read.csv2("input/data/CASEN.csv") #Señalamos a R que cree un
-# nuevo objeto llamado "datos", cargando la base "datos.csv" que se encuentra en
-# el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: 
-# "read.csv2". Cuando los datos están en español, no es necesario especificar más 
-# argumentos. 
+datos <- read.csv("input/data/CASEN.csv", sep=";", 
+                  encoding = "Latin-1", stringsAsFactors = F, na.strings = c("No sabe", NA))
 
 ## d) .xlsx
 
-datos <- read.xlsx("input/data/CASEN.xlsx") #Señalamos a R que cree 
-# un nuevo objeto llamado "datos", cargando la base "datos.xlsx" que se encuentra 
-# en el directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: 
-# "read.xlsx". 
+datos <- readxl::read_excel(path = "input/data/CASEN.xlsx")
 
-datos <- read.xlsx("input/data/CASEN.xlsx", sheetIndex = 1) #Señalamos 
-# a R que cree un nuevo objeto llamado "datos", cargando la primera página de la
-# base "datos.xlsx" que se encuentra en el directorio "RUTADONDESEENCUENTRAN", 
-# con el comando correspondiente: "read.xlsx". 
+datos <- readxl::read_excel(path = "input/data/CASEN.xlsx", sheet = "Hoja1", skip = 1)
 
-datos <- read.xlsx("input/data/CASEN.xlsx", sheetName = 'NOMBREDELAPAGINA') 
-#Señalamos a R que cree un nuevo objeto llamado "datos", cargando la página 
-# llamada "NOMBREDELAPAGINA", de la base "datos.xlsx" que se encuentra en el 
-# directorio "RUTADONDESEENCUENTRAN", con el comando correspondiente: "read.xlsx". 
+datos <- readxl::read_excel(path = "input/data/CASEN.xlsx", sheet = "Hoja1", skip = 1, na = "NA")
 
-datos <- read.xlsx("input/data/CASEN.xlsx", startRow = 3) #Señalamos a 
-# R que cree un nuevo objeto llamado "datos", cargando la base "datos.xlsx" que 
-# se encuentra en el directorio "RUTADONDESEENCUENTRAN" desde la tercera fila, 
-# con el comando correspondiente: "read.xlsx".
+# 2. Explorar datos ------------------------------------------------
 
-# 2. Seleccionar variables ------------------------------------------------
+View(datos) # Ver datos
+names(datos) # Nombre de columnas
+dim(datos) # Dimensiones
+str(datos) # Estructura de los datos (las clases y categorias de repuesta)
 
-## 2.1. Tipos de variables
+sjPlot::view_df(datos)
 
-# Las variables pueden ser de tipo numeric, character, Logic o factor. Para saber
-# la clase de una variable, debemos emplear el comando class(datos$variable).
+find_var(datos, "pobreza")
+find_var(datos, "salario")
+
+frq(datos$pobreza)
+frq(datos$y1) #¡Qué feo!
+
+descr(datos$y1)
+
+#### Sobre las clases de las variables
 
 class(datos$ypchtotcor)
 
-## 2.2. Selección de variables
+# 3. Selección de datos ----------------------------------------------------
 
-datos_proc <- datos %>% 
-  select(ingresos_pc = ypchtotcor,
-         sit_vivienda = v13,
-         dorm_vivienda = v29,
-         pers_vivienda = p6)
+datos_proc <- select(datos, ypchtotcor,v13,v29,p6)
 
-# Creamos un nuevo objeto llamado datos_proc, a partir del objeto datos, seleccionado 
-# las variables ypchtotcor (renombrada como ingresos_pc), v13 (renombrada como 
-# sit_vivienda), v29 (renombrada como dorm_vivienda) y p6 (renombrada como 
-# pers_vivienda).
-
-## BONUS: Inspección de variables con sjmisc
-
-## a) Variables categóricas
-
-frq(datos_proc$sit_vivienda) #Usar la función frq con la variable sit_vivienda 
-# de los datos datos_proc.
-
-## b) Variables numéricas
-
-descr(datos_proc$ingresos_pc) #Usar la función descr con la variable edad de los 
-# datos datos_proc.
-
-
-# 3. Limpieza de datos ----------------------------------------------------
+# 4. Limpieza de datos ----------------------------------------------------------
 
 is.na(datos_proc) #Revisamos si hay casos perdidos en el total del set de datos 
-is.na(datos_proc$ingresos_pc) #Revisamos si hay casos perdidos en Ingresos per cápita
+is.na(datos_proc$ypchtotcor) #Revisamos si hay casos perdidos en Ingresos per cápita
 
-sum(is.na(datos_proc)) #Contamos los valores nulos del set de datos en general, 
-# que suman un total de 180.148
-sum(is.na(datos_proc$ingresos_pc)) #Contaremos los valores nulos de la variable 
-# Ingresos per cápita, que alcanzan un total de 98
+sum(is.na(datos_proc)) #Contamos los valores nulos del set de datos en general, que suman un total de 180.148
+sum(is.na(datos_proc$ypchtotcor)) #Contaremos los valores nulos de la variable Ingresos per cápita, que alcanzan un total de 98
 
-dim(datos_proc) #Vemos que los datos presentan 185.437 filas, y 4 columnas
-sum(is.na(datos_proc)) #Y un total de 180.148 celdas con casos perdidos
+nrow(datos_proc)
 datos_proc <- na.omit(datos_proc) #Eliminamos las filas con casos perdidos
-dim(datos_proc) #La nueva base de datos tiene 5.387 filas y 4 columnas
+nrow(datos_proc) #La nueva base de datos tiene 5.387 filas y 4 columnas
 
-# 4. Exportar datos ----------------------------------------------------------
+# 5. Guardar y exportar datos ---------------------------------------------
 
-## a) .RData y .rds
+save(datos_proc, file = "output/data/datos_proc.RData") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.RData. 
 
-save(datos_proc, data = "output/data/datos_proc.RData") #Guardamos el objeto datos_proc 
-# en la ruta de trabajo actual, bajo el nombre de datos_proc.RData. 
+saveRDS(datos_proc, file= "output/data/datos_proc.rds") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.rds. 
 
-saveRDS(datos_proc, data = "output/data/datos_proc.rds") #Guardamos el objeto datos_proc 
-# en la ruta de trabajo actual, bajo el nombre de datos_proc.rds. 
+write_sav(datos_proc, "output/data/datos_proc.sav") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.sav.
 
-## b) .sav (haven)
+write_dta(datos_proc, "output/data/datos_proc.dta") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.dta.
 
-write_sav(datos_proc, data = "output/data/datos_proc.sav") #Guardamos el objeto 
-# datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.sav. 
+write.csv(datos_proc, "output/data/datos_proc.csv") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.csv. 
 
-## b) .dta (haven)
-
-write_dta(datos_proc, data = "output/data/datos_proc.dta") #Guardamos el objeto 
-# datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.dta. 
-
-## b) .csv
-
-write.csv(datos_proc, data = "output/data/datos_proc.csv") #Guardamos el objeto 
-# datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.csv.
-
-## b) .xlsx
-
-write.xlsx(datos_proc, data = "output/data/datos_proc.xlsx") #Guardamos el objeto 
-# datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.xlsx. 
-
-
+writexl::write_xlsx(datos_proc, "output/data/datos_proc.xlsx") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.xlsx. 
 
