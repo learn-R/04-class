@@ -1,7 +1,7 @@
 {
     "id": "069617F0",
-    "path": "~/GitHub/03-class/R/03-practico.Rmarkdown",
-    "project_path": "R/03-practico.Rmarkdown",
+    "path": "~/GitHub/04-class/R/04-practico.Rmarkdown",
+    "project_path": "R/04-practico.Rmarkdown",
     "type": "r_markdown",
     "hash": "3376536144",
     "contents": "",
@@ -17,11 +17,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1628885369,
+    "lastKnownWriteTime": 1647201278,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1628885369,
+    "last_content_update": 1647201278,
     "read_only": false,
     "read_only_alternatives": []
 }

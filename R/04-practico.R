@@ -1,5 +1,5 @@
 
-# Práctico 2: Importar, seleccionar y exportar datos ----------------------
+# Práctico 3: Importar, seleccionar y exportar datos ----------------------
 
 
 # 0. Instalar paquetes ----------------------------------------------------
@@ -80,19 +80,7 @@ class(datos$ypchtotcor)
 
 datos_proc <- select(datos, ypchtotcor,v13,v29,p6)
 
-# 4. Limpieza de datos ----------------------------------------------------------
-
-is.na(datos_proc) #Revisamos si hay casos perdidos en el total del set de datos 
-is.na(datos_proc$ypchtotcor) #Revisamos si hay casos perdidos en Ingresos per cápita
-
-sum(is.na(datos_proc)) #Contamos los valores nulos del set de datos en general, que suman un total de 180.148
-sum(is.na(datos_proc$ypchtotcor)) #Contaremos los valores nulos de la variable Ingresos per cápita, que alcanzan un total de 98
-
-nrow(datos_proc)
-datos_proc <- na.omit(datos_proc) #Eliminamos las filas con casos perdidos
-nrow(datos_proc) #La nueva base de datos tiene 5.387 filas y 4 columnas
-
-# 5. Guardar y exportar datos ---------------------------------------------
+# 4. Guardar y exportar datos ---------------------------------------------
 
 save(datos_proc, file = "output/data/datos_proc.RData") #Guardamos el objeto datos_proc en la ruta de trabajo actual, bajo el nombre de datos_proc.RData. 
 
